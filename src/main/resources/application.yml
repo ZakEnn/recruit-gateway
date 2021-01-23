@@ -1,0 +1,38 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: apply
+        uri: http://localhost:8082/
+        predicates:
+          - Path=/ws-process/start-process/recruit_process
+        filters:
+          - TokenRelay=
+          - RemoveRequestHeader=Cookie
+
+      - id: hire
+        uri: http://localhost:8082/
+        predicates:
+          - Path=/ws-process/process/**
+        filters:
+          - TokenRelay=
+          - RemoveRequestHeader=Cookie
+
+      - id: resumeById
+        uri: http://localhost:8082/
+        predicates:
+          - Path=/ws-process/applications
+          - Query=assignee
+        filters:
+          - TokenRelay=
+          - RemoveRequestHeader=Cookie
+
+management:
+  endpoint:
+    gateway:
+      enabled: true
+
+  endpoints:
+    web:
+      exposure:
+        include: gateway
