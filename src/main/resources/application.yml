@@ -5,7 +5,7 @@ spring:
       - id: apply
         uri: http://localhost:8082/
         predicates:
-          - Path=/ws-process/start-process/recruit_process
+          - Path=/ws-process/start-process/**
         filters:
           - TokenRelay=
           - RemoveRequestHeader=Cookie
